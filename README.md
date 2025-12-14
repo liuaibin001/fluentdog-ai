@@ -13,6 +13,11 @@ AI-powered dog bark analysis platform that helps pet owners understand why their
 - **Follow-up Recommendations**: Context-aware questions to improve analysis
 
 ### Dashboard
+
+Manage your dogs, upload bark recordings, and track analysis results all in one place. The dashboard provides a comprehensive overview of your dog's barking patterns with daily summaries, emotion trends, and personalized training recommendations.
+
+![Dashboard](public/index2.png)
+
 - **Multi-step Dog Onboarding**: Gender, age, breed, and name wizard
 - **Bark Upload/Recording**: Support for audio and video files
 - **Timeline View**: Chronological bark history grouped by date
