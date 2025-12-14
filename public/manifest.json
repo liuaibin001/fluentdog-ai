@@ -1,0 +1,26 @@
+{
+  "name": "FluentDog - AI Dog Bark Translator",
+  "short_name": "FluentDog",
+  "description": "AI-powered dog bark translator and separation anxiety monitor. Understand why your dog barks and get personalized training plans.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f14",
+  "theme_color": "#4fd1c5",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "health", "utilities"],
+  "lang": "en-US"
+}
