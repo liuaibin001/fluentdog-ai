@@ -14,6 +14,7 @@ import { WeeklyReport } from "@/components/dashboard/weekly-report"
 import { ContextEvents } from "@/components/dashboard/context-events"
 import { TrainingPlan } from "@/components/dashboard/training-plan"
 import { getDogs, type Dog } from "@/lib/services/dogs"
+import { createBarkAnalysis, getBarkAnalyses, type BarkAnalysis } from "@/lib/services/bark-analyses"
 
 interface ContextEvent {
   id: string
@@ -24,6 +25,26 @@ interface ContextEvent {
 
 type Tab = "home" | "dogs" | "reports"
 type ActionTab = "new_analysis" | "pending_review" | "weekly_summary" | "training"
+
+// Convert database BarkAnalysis to component BarkAnalysisResult
+function toAnalysisResult(analysis: BarkAnalysis): BarkAnalysisResult {
+  return {
+    id: analysis.id,
+    timestamp: new Date(analysis.created_at),
+    emotionType: analysis.emotion_type || "alert",
+    anxietyScore: analysis.anxiety_score || 1,
+    duration: analysis.duration || 0,
+    reviewed: analysis.reviewed,
+    isDogBark: analysis.is_dog_bark,
+    dogBarkConfidence: analysis.dog_bark_confidence || undefined,
+    nonBarkSound: analysis.non_bark_sound,
+    emotionConfidence: analysis.emotion_confidence,
+    anxietyRationale: analysis.anxiety_rationale,
+    triggerCandidates: analysis.trigger_candidates,
+    needsMoreContext: analysis.needs_more_context,
+    followUpQuestions: analysis.follow_up_questions,
+  }
+}
 
 export default function DashboardPage() {
   const [user, setUser] = useState<{ email: string; name?: string; avatar?: string } | null>(null)
@@ -36,6 +57,7 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<Tab>("home")
   const [activeAction, setActiveAction] = useState<ActionTab>("new_analysis")
   const [userPlan, setUserPlan] = useState<"free" | "premium" | "coach">("premium") // Mock plan
+  const [showDogSelector, setShowDogSelector] = useState(false)
 
   useEffect(() => {
     const initDashboard = async () => {
@@ -58,6 +80,12 @@ export default function DashboardPage() {
       if (dogsData && dogsData.length > 0) {
         setDogs(dogsData)
         setSelectedDog(dogsData[0])
+
+        // Fetch analyses for all dogs
+        const { data: analysesData } = await getBarkAnalyses()
+        if (analysesData) {
+          setAnalyses(analysesData.map(toAnalysisResult))
+        }
       }
 
       setLoading(false)
@@ -66,13 +94,54 @@ export default function DashboardPage() {
     initDashboard()
   }, [])
 
+  // Reload analyses when selected dog changes
+  useEffect(() => {
+    const loadAnalyses = async () => {
+      if (selectedDog) {
+        const { data: analysesData } = await getBarkAnalyses(selectedDog.id)
+        if (analysesData) {
+          setAnalyses(analysesData.map(toAnalysisResult))
+        }
+      }
+    }
+    if (selectedDog) {
+      loadAnalyses()
+    }
+  }, [selectedDog])
+
   const handleAddDog = (dog: Dog) => {
     setDogs([dog, ...dogs])
     setSelectedDog(dog)
+    setAnalyses([]) // Clear analyses when switching to new dog
   }
 
-  const handleUploadComplete = (result: BarkAnalysisResult) => {
-    setAnalyses([result, ...analyses])
+  const handleUploadComplete = async (result: BarkAnalysisResult) => {
+    if (!selectedDog) return
+
+    // Save to database
+    const { data: savedAnalysis, error } = await createBarkAnalysis({
+      dog_id: selectedDog.id,
+      is_dog_bark: result.isDogBark ?? true,
+      dog_bark_confidence: result.dogBarkConfidence,
+      non_bark_sound: result.nonBarkSound,
+      emotion_type: result.emotionType,
+      emotion_confidence: result.emotionConfidence ?? undefined,
+      anxiety_score: result.anxietyScore,
+      anxiety_rationale: result.anxietyRationale ?? undefined,
+      trigger_candidates: result.triggerCandidates,
+      needs_more_context: result.needsMoreContext,
+      follow_up_questions: result.followUpQuestions,
+      duration: result.duration,
+    })
+
+    if (error) {
+      console.error("Failed to save analysis:", error)
+      // Still show the result even if save failed
+      setAnalyses([result, ...analyses])
+    } else if (savedAnalysis) {
+      // Use the saved analysis with proper ID from database
+      setAnalyses([toAnalysisResult(savedAnalysis), ...analyses])
+    }
   }
 
   const handleAddEvent = (event: Omit<ContextEvent, "id">) => {
@@ -207,11 +276,89 @@ export default function DashboardPage() {
         {/* Home Tab */}
         {activeTab === "home" && (
           <>
-            {/* Welcome Section */}
+            {/* Welcome Section with Dog Selector */}
             <div className="mb-8 flex items-center justify-between">
-              <h1 className="text-3xl font-bold">
-                Welcome back! 👋
-              </h1>
+              <div className="flex items-center gap-4">
+                <h1 className="text-3xl font-bold">
+                  Welcome back! 👋
+                </h1>
+
+                {/* Dog Selector */}
+                {dogs.length > 0 && (
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowDogSelector(!showDogSelector)}
+                      className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:border-gray-300 transition-colors"
+                    >
+                      <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center">
+                        <svg className="h-4 w-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                      </div>
+                      {selectedDog?.name || "Select a dog"}
+                      <svg className={`h-4 w-4 transition-transform ${showDogSelector ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+
+                    {/* Dropdown */}
+                    {showDogSelector && (
+                      <div className="absolute left-0 top-full mt-2 w-56 rounded-xl border border-gray-200 bg-white py-2 shadow-lg z-10">
+                        {dogs.map((dog) => (
+                          <button
+                            key={dog.id}
+                            onClick={() => {
+                              setSelectedDog(dog)
+                              setShowDogSelector(false)
+                            }}
+                            className={`flex w-full items-center gap-3 px-4 py-2 text-left text-sm transition-colors ${
+                              selectedDog?.id === dog.id
+                                ? "bg-primary/5 text-primary"
+                                : "text-gray-700 hover:bg-gray-50"
+                            }`}
+                          >
+                            <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
+                              {dog.image_url ? (
+                                <Image src={dog.image_url} alt={dog.name} width={32} height={32} className="h-full w-full rounded-full object-cover" />
+                              ) : (
+                                <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                              )}
+                            </div>
+                            <div>
+                              <div className="font-medium">{dog.name}</div>
+                              <div className="text-xs text-gray-500">{dog.breed || "Unknown breed"}</div>
+                            </div>
+                            {selectedDog?.id === dog.id && (
+                              <svg className="ml-auto h-4 w-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            )}
+                          </button>
+                        ))}
+                        <div className="border-t border-gray-100 mt-2 pt-2">
+                          <button
+                            onClick={() => {
+                              setShowDogSelector(false)
+                              setShowAddDog(true)
+                            }}
+                            className="flex w-full items-center gap-3 px-4 py-2 text-left text-sm text-primary hover:bg-primary/5"
+                          >
+                            <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                              </svg>
+                            </div>
+                            Add new dog
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
               <Button
                 onClick={() => setShowAddDog(true)}
                 className="rounded-full bg-primary px-6 hover:bg-primary/90"
@@ -220,70 +367,105 @@ export default function DashboardPage() {
               </Button>
             </div>
 
-            {/* Quick Actions Card */}
-            <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-6">
-              <h2 className="mb-4 text-lg font-semibold">Quick actions</h2>
-
-              {/* Action Tabs */}
-              <div className="mb-6 flex flex-wrap gap-2">
-                {[
-                  { id: "new_analysis", label: "New Analysis", count: 0, active: true },
-                  { id: "pending_review", label: "Pending Review", count: pendingReviews },
-                  { id: "weekly_summary", label: "Weekly Summary", count: 0 },
-                  { id: "training", label: "Training Plan", count: 0 },
-                ].map((action) => (
-                  <button
-                    key={action.id}
-                    onClick={() => setActiveAction(action.id as ActionTab)}
-                    className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-                      activeAction === action.id
-                        ? "border-primary bg-primary/5 text-primary"
-                        : "border-gray-200 text-gray-600 hover:border-gray-300"
-                    }`}
-                  >
-                    {action.label} ({action.count})
-                  </button>
-                ))}
-              </div>
-
-              {/* AI Assistant Tip */}
-              <div className="rounded-xl bg-gray-50 p-4">
-                <div className="mb-2 flex items-center gap-2">
-                  <Image
-                    src="/icons8-guide-dog-48.png"
-                    alt="FluentDog AI"
-                    width={32}
-                    height={32}
-                    className="h-8 w-8"
-                  />
-                  <span className="font-semibold">FluentDog AI</span>
-                  <span className="text-sm text-gray-500">Your 24/7 bark analysis assistant</span>
+            {/* No Dogs Message */}
+            {dogs.length === 0 && (
+              <div className="mb-8 rounded-2xl border-2 border-dashed border-gray-200 bg-white p-12 text-center">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                  <svg className="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
                 </div>
-                <p className="text-sm text-gray-600">
-                  {activeAction === "new_analysis" && "Upload or record your dog's barking to analyze emotions and identify triggers. Regular analysis helps track patterns."}
-                  {activeAction === "pending_review" && pendingReviews > 0
-                    ? `You have ${pendingReviews} bark analyses waiting for your review. Reviewing helps improve accuracy.`
-                    : "No pending reviews. Great job staying on top of your dog's bark analysis!"}
-                  {activeAction === "weekly_summary" && "Weekly summaries help you understand your dog's barking patterns over time. Check back on Sundays!"}
-                  {activeAction === "training" && "Based on your dog's bark patterns, we'll create a personalized training plan to reduce excessive barking."}
+                <h2 className="text-xl font-semibold text-gray-900">Add your first dog</h2>
+                <p className="mt-2 text-gray-500">
+                  To start analyzing bark recordings, please add your dog first.
                 </p>
+                <Button
+                  onClick={() => setShowAddDog(true)}
+                  className="mt-6 rounded-full bg-primary px-8"
+                >
+                  Add a dog
+                </Button>
               </div>
+            )}
 
-              {/* Action Content */}
-              {activeAction === "new_analysis" && selectedDog && (
-                <div className="mt-6">
-                  <BarkUpload
-                    dogId={selectedDog.id}
-                    onUploadComplete={handleUploadComplete}
-                  />
+            {/* Quick Actions Card - Only show if dogs exist */}
+            {dogs.length > 0 && (
+              <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-6">
+                <h2 className="mb-4 text-lg font-semibold">Quick actions</h2>
+
+                {/* Action Tabs */}
+                <div className="mb-6 flex flex-wrap gap-2">
+                  {[
+                    { id: "new_analysis", label: "New Analysis", count: 0, active: true },
+                    { id: "pending_review", label: "Pending Review", count: pendingReviews },
+                    { id: "weekly_summary", label: "Weekly Summary", count: 0 },
+                    { id: "training", label: "Training Plan", count: 0 },
+                  ].map((action) => (
+                    <button
+                      key={action.id}
+                      onClick={() => setActiveAction(action.id as ActionTab)}
+                      className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                        activeAction === action.id
+                          ? "border-primary bg-primary/5 text-primary"
+                          : "border-gray-200 text-gray-600 hover:border-gray-300"
+                      }`}
+                    >
+                      {action.label} ({action.count})
+                    </button>
+                  ))}
                 </div>
-              )}
-            </div>
+
+                {/* AI Assistant Tip */}
+                <div className="rounded-xl bg-gray-50 p-4">
+                  <div className="mb-2 flex items-center gap-2">
+                    <Image
+                      src="/icons8-guide-dog-48.png"
+                      alt="FluentDog AI"
+                      width={32}
+                      height={32}
+                      className="h-8 w-8"
+                    />
+                    <span className="font-semibold">FluentDog AI</span>
+                    <span className="text-sm text-gray-500">Your 24/7 bark analysis assistant</span>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    {activeAction === "new_analysis" && (
+                      selectedDog
+                        ? `Upload or record ${selectedDog.name}'s barking to analyze emotions and identify triggers.`
+                        : "Select a dog above to start analyzing barks."
+                    )}
+                    {activeAction === "pending_review" && pendingReviews > 0
+                      ? `You have ${pendingReviews} bark analyses waiting for your review. Reviewing helps improve accuracy.`
+                      : activeAction === "pending_review" && "No pending reviews. Great job staying on top of your dog's bark analysis!"}
+                    {activeAction === "weekly_summary" && "Weekly summaries help you understand your dog's barking patterns over time. Check back on Sundays!"}
+                    {activeAction === "training" && "Based on your dog's bark patterns, we'll create a personalized training plan to reduce excessive barking."}
+                  </p>
+                </div>
+
+                {/* Action Content */}
+                {activeAction === "new_analysis" && (
+                  <div className="mt-6">
+                    {selectedDog ? (
+                      <BarkUpload
+                        dogId={selectedDog.id}
+                        onUploadComplete={handleUploadComplete}
+                      />
+                    ) : (
+                      <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center">
+                        <p className="text-gray-500">Please select a dog above to upload bark recordings</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Recent Analyses */}
             {analyses.length > 0 && (
               <div className="mb-8">
-                <h2 className="mb-4 text-lg font-semibold">Recent analyses</h2>
+                <h2 className="mb-4 text-lg font-semibold">
+                  Recent analyses {selectedDog && `for ${selectedDog.name}`}
+                </h2>
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {analyses.slice(0, 3).map((analysis) => (
                     <BarkAnalysisCard key={analysis.id} analysis={analysis} />
@@ -293,21 +475,23 @@ export default function DashboardPage() {
             )}
 
             {/* Stats Grid */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <DailySummary analyses={todayAnalyses} />
+            {dogs.length > 0 && (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <DailySummary analyses={todayAnalyses} />
 
-              {userPlan !== "free" && (
-                <ContextEvents
-                  events={contextEvents}
-                  onAddEvent={handleAddEvent}
-                  onRemoveEvent={handleRemoveEvent}
-                />
-              )}
+                {userPlan !== "free" && (
+                  <ContextEvents
+                    events={contextEvents}
+                    onAddEvent={handleAddEvent}
+                    onRemoveEvent={handleRemoveEvent}
+                  />
+                )}
 
-              {userPlan === "coach" && (
-                <TrainingPlan analyses={analyses} isPremium={true} />
-              )}
-            </div>
+                {userPlan === "coach" && (
+                  <TrainingPlan analyses={analyses} isPremium={true} />
+                )}
+              </div>
+            )}
           </>
         )}
 
@@ -333,7 +517,11 @@ export default function DashboardPage() {
                     setSelectedDog(dog)
                     setActiveTab("home")
                   }}
-                  className="group cursor-pointer rounded-2xl border border-gray-200 bg-white p-6 transition-all hover:border-primary hover:shadow-md"
+                  className={`group cursor-pointer rounded-2xl border bg-white p-6 transition-all hover:shadow-md ${
+                    selectedDog?.id === dog.id
+                      ? "border-primary ring-2 ring-primary/20"
+                      : "border-gray-200 hover:border-primary"
+                  }`}
                 >
                   {/* Dog Image Placeholder */}
                   <div className="mb-4 flex h-24 w-24 items-center justify-center rounded-xl bg-gray-100">
@@ -350,10 +538,17 @@ export default function DashboardPage() {
                   <p className="text-sm text-gray-500">{dog.breed || "Unknown breed"}</p>
 
                   <div className="mt-4 flex items-center justify-between">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
-                      <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                      Active
-                    </span>
+                    {selectedDog?.id === dog.id ? (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                        <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                        Selected
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
+                        <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                        Active
+                      </span>
+                    )}
                     <button className="rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600">
                       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />

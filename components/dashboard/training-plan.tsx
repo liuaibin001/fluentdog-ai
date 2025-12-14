@@ -194,7 +194,7 @@ export function TrainingPlan({ analyses, isPremium = false }: TrainingPlanProps)
       <div className="mt-6 rounded-lg bg-primary/5 p-4">
         <p className="text-sm">
           <span className="font-medium">AI Recommendation:</span> Based on your dog&apos;s{" "}
-          {emotionCounts[primaryEmotion]} {primaryEmotion} barks, focus on steps 1-2 this week.
+          {primaryEmotion && emotionCounts[primaryEmotion]} {primaryEmotion} barks, focus on steps 1-2 this week.
           Track progress daily for best results.
         </p>
       </div>
