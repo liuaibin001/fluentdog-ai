@@ -19,10 +19,9 @@ const features = [
         <line x1="12" x2="12" y1="3" y2="15" />
       </svg>
     ),
-    title: "Easy Upload & Recording",
+    title: "Record Your Dog Barking",
     description:
-      "Upload existing bark recordings or record directly in the app. Capture video or audio of your dog's barking anytime for instant AI analysis.",
-    keywords: "dog bark analyzer, upload dog barking audio",
+      "Capture your dog's barking with video or audio — whether it's barking at nothing, when left alone, or at night. Upload existing recordings or record live for instant AI analysis.",
   },
   {
     icon: (
@@ -42,10 +41,9 @@ const features = [
         <line x1="12" y1="22.08" x2="12" y2="12" />
       </svg>
     ),
-    title: "AI Emotion Classification",
+    title: "Understand Why Your Dog Barks",
     description:
-      "Classify barks into 5 emotion categories: Alert, Anxiety, Boredom, Attention-seeking, and Playful. Get a 1-10 anxiety intensity score for each bark event.",
-    keywords: "dog behavior AI analyzer, types of dog barks and meanings",
+      "AI classifies barks into 5 emotion types: Alert, Anxiety, Boredom, Attention-seeking, and Playful. Finally understand why your dog barks so much with a 1-10 anxiety score.",
   },
   {
     icon: (
@@ -65,10 +63,52 @@ const features = [
         <path d="M9 21V9" />
       </svg>
     ),
-    title: "Visual Behavior Reports",
+    title: "Track Barking Patterns",
     description:
-      "Daily timeline, weekly/monthly reports, and emotion-type pie charts help you understand your dog's barking patterns at a glance.",
-    keywords: "separation anxiety tracker for dogs, dog behavior analysis",
+      "Daily timeline and weekly reports reveal when and why excessive barking happens. See if your dog barks more when left alone or at specific triggers.",
+  },
+  {
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="h-6 w-6"
+        aria-hidden="true"
+      >
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    ),
+    title: "Stop Dog Barking Training",
+    description:
+      "Get AI-generated training plans specifically designed to stop your dog's barking. Proven techniques for barking at night, separation anxiety, and more — just 10 minutes a day.",
+  },
+  {
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="h-6 w-6"
+        aria-hidden="true"
+      >
+        <path d="M9 18V5l12-2v13" />
+        <circle cx="6" cy="18" r="3" />
+        <circle cx="18" cy="16" r="3" />
+      </svg>
+    ),
+    title: "Calming Sounds for Anxious Dogs",
+    description:
+      "Built-in white noise, soothing music, and owner voice recordings help stop anxiety barking instantly. Plays automatically when your dog barks when left alone.",
   },
   {
     icon: (
@@ -89,83 +129,39 @@ const features = [
         <path d="M16 3.13a4 4 0 0 1 0 7.75" />
       </svg>
     ),
-    title: "Vet-Grade Reports",
+    title: "Vet-Grade Bark Reports",
     description:
-      "Export professional reports to share with your veterinarian. Data-driven insights lead to more accurate diagnoses and treatment recommendations.",
-    keywords: "signs of dog separation anxiety, professional dog behavior report",
-  },
-  {
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-6 w-6"
-        aria-hidden="true"
-      >
-        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-        <circle cx="12" cy="12" r="3" />
-      </svg>
-    ),
-    title: "Personalized Training Plans",
-    description:
-      "AI-generated progressive behavior training courses based on your dog's specific bark patterns. Just 10 minutes a day to see real improvement.",
-    keywords: "dog training app for excessive barking, how to stop dog barking when left alone",
-  },
-  {
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-6 w-6"
-        aria-hidden="true"
-      >
-        <path d="M9 18V5l12-2v13" />
-        <circle cx="6" cy="18" r="3" />
-        <circle cx="18" cy="16" r="3" />
-      </svg>
-    ),
-    title: "AI Calming Sound Library",
-    description:
-      "Built-in white noise, soothing music, and pre-recorded owner voices. Automatically plays calming sounds when anxiety barking is detected.",
-    keywords: "pet anxiety monitor, calm anxious dog sounds",
+      "Export professional reports showing why your dog barks so much. Share with your veterinarian for data-driven diagnosis and treatment of excessive barking behavior.",
   },
 ]
 
 export function Features() {
   return (
-    <section id="features" className="container mx-auto px-4 py-24" aria-labelledby="features-heading">
-      <header className="mx-auto max-w-3xl text-center">
-        {/* H2 with SEO keywords */}
-        <h2 id="features-heading" className="mb-4 text-balance text-4xl font-bold md:text-5xl">
-          Scientific Dog Behavior Analysis
-        </h2>
-        <p className="text-pretty text-lg text-muted-foreground">
-          From monitoring to analysis, from diagnosis to training — a complete solution to stop excessive barking
-        </p>
-      </header>
+    <section id="features" className="py-24" aria-labelledby="features-heading">
+      <div className="container mx-auto px-4">
+        <header className="mx-auto max-w-3xl text-center">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-primary">Why Dogs Bark & How to Stop It</p>
+          <h2 id="features-heading" className="mb-4 text-balance text-3xl font-bold md:text-4xl lg:text-5xl">
+            Understand <span className="text-gradient">why your dog barks</span> so much
+          </h2>
+          <p className="text-pretty text-lg text-muted-foreground">
+            Is your dog barking at nothing? When left alone? At night? Our AI analyzes bark patterns to identify the cause and create a plan to stop excessive dog barking.
+          </p>
+        </header>
 
-      <div className="mx-auto mt-16 grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {features.map((feature, index) => (
-          <Card key={index} className="border-border/40 bg-card/50 backdrop-blur">
-            <CardContent className="p-6">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                {feature.icon}
-              </div>
-              <h3 className="mb-2 text-xl font-semibold">{feature.title}</h3>
-              <p className="text-sm text-muted-foreground">{feature.description}</p>
-            </CardContent>
-          </Card>
-        ))}
+        <div className="mx-auto mt-16 grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature, index) => (
+            <Card key={index} className="card-shadow border-border/50 bg-card transition-all hover:-translate-y-1 hover:shadow-lg">
+              <CardContent className="p-6">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  {feature.icon}
+                </div>
+                <h3 className="mb-2 text-lg font-semibold">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground">{feature.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </section>
   )

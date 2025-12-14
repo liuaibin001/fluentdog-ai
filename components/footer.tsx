@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/40 bg-card/30 backdrop-blur" role="contentinfo">
+    <footer className="border-t border-border/50 bg-muted/30" role="contentinfo">
       <div className="container mx-auto px-4 py-12">
         <div className="grid gap-8 md:grid-cols-4">
           {/* Brand */}
@@ -152,7 +152,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-12 border-t border-border/40 pt-8 text-center text-sm text-muted-foreground">
+        <div className="mt-12 border-t border-border/50 pt-8 text-center text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} FluentDog. All rights reserved.</p>
         </div>
       </div>
