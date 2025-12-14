@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge"
 
 const plans = [
   {
+    id: "basic",
     name: "Basic",
     price: "Free",
     period: "",
@@ -16,8 +17,10 @@ const plans = [
       "Community support",
     ],
     cta: "Start Free",
+    href: "/signup",
   },
   {
+    id: "premium",
     name: "Premium",
     price: "$19.9",
     period: "/month",
@@ -32,9 +35,11 @@ const plans = [
       "Vet-grade report export",
       "30-day history",
     ],
-    cta: "Start 14-Day Trial",
+    cta: "Subscribe Now",
+    href: "/checkout?plan=premium",
   },
   {
+    id: "coach",
     name: "Coach",
     price: "$49.9",
     period: "/month",
@@ -49,7 +54,8 @@ const plans = [
       "Priority customer support",
       "Unlimited history",
     ],
-    cta: "Start 14-Day Trial",
+    cta: "Subscribe Now",
+    href: "/checkout?plan=coach",
   },
 ]
 
@@ -114,7 +120,7 @@ export function Pricing() {
                 variant={plan.popular ? "default" : "outline"}
                 asChild
               >
-                <a href="/signup">{plan.cta}</a>
+                <a href={plan.href}>{plan.cta}</a>
               </Button>
             </CardFooter>
           </Card>
