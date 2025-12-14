@@ -2,6 +2,8 @@
 
 AI-powered dog bark analysis platform that helps pet owners understand why their dogs bark and provides personalized training recommendations to reduce excessive barking.
 
+![FluentDog AI](public/index.png)
+
 ## Features
 
 ### Bark Analysis
