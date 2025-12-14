@@ -207,3 +207,7 @@ MIT
 
 - [Live Demo](https://fluentdog.app)
 - [Blog: How to Stop Dog Barking](https://fluentdog.app/blog/how-to-stop-dog-barking)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=liuaibin001/fluentdog-ai&type=date&legend=top-left)](https://www.star-history.com/#liuaibin001/fluentdog-ai&type=date&legend=top-left)
