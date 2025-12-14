@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import { Button } from "@/components/ui/button"
+import { Background } from "@/components/background"
 
 const PLANS = {
   premium: {
@@ -126,7 +127,8 @@ function CheckoutContent() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-12">
+      <Background />
+      <div className="relative z-10 container mx-auto px-4 py-12">
         <div className="mx-auto max-w-2xl">
           {/* Header */}
           <div className="mb-8 text-center">

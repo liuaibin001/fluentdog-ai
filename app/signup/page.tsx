@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Background } from "@/components/background"
 
 export default function SignupPage() {
   const [email, setEmail] = useState("")
@@ -74,7 +75,8 @@ export default function SignupPage() {
   if (success) {
     return (
       <div className="flex min-h-screen items-center justify-center px-4">
-        <div className="w-full max-w-md space-y-8 text-center">
+        <Background />
+        <div className="relative z-10 w-full max-w-md space-y-8 text-center">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
             <svg
               className="h-8 w-8 text-primary"
@@ -105,7 +107,8 @@ export default function SignupPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-md space-y-8">
+      <Background />
+      <div className="relative z-10 w-full max-w-md space-y-8">
         <div className="text-center">
           <Link href="/" className="inline-flex items-center gap-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">

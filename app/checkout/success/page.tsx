@@ -4,6 +4,7 @@ import { Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { Background } from "@/components/background"
 
 function SuccessContent() {
   const searchParams = useSearchParams()
@@ -13,7 +14,8 @@ function SuccessContent() {
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-md text-center">
+      <Background />
+      <div className="relative z-10 w-full max-w-md text-center">
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-500/10">
           <svg
             className="h-10 w-10 text-green-500"

@@ -7,10 +7,12 @@ import { Pricing } from "@/components/pricing"
 import { FAQ } from "@/components/faq"
 import { CTA } from "@/components/cta"
 import { Footer } from "@/components/footer"
+import { Background } from "@/components/background"
 
 export default function Home() {
   return (
     <>
+      <Background />
       <PromoBanner />
       <Header />
       <main className="min-h-screen">

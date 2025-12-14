@@ -12,6 +12,7 @@ import { DailySummary } from "@/components/dashboard/daily-summary"
 import { WeeklyReport } from "@/components/dashboard/weekly-report"
 import { ContextEvents } from "@/components/dashboard/context-events"
 import { TrainingPlan } from "@/components/dashboard/training-plan"
+import { Background } from "@/components/background"
 
 interface Dog {
   id: string
@@ -102,7 +103,8 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/40">
+      <Background />
+      <header className="relative z-10 border-b border-border/40 bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
@@ -132,7 +134,7 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="relative z-10 container mx-auto px-4 py-8">
         {/* Dog selector / Add dog */}
         {dogs.length === 0 ? (
           <div className="mx-auto max-w-2xl">
