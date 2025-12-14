@@ -66,11 +66,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@fluentdogapp",
+    creator: "@fluentdogapp",
     title: "How to Stop Dog Barking | AI Bark Analyzer - FluentDog",
     description:
       "Why does your dog bark so much? AI analyzes barking to find the cause and stop it. Try free!",
     images: ["/og-image.png"],
-    creator: "@fluentdogapp",
   },
   robots: {
     index: true,
