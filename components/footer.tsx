@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 
 export function Footer() {
   return (
@@ -8,29 +9,19 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="mb-4 flex items-center gap-2" aria-label="FluentDog Home">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-5 w-5 text-primary-foreground"
-                  aria-hidden="true"
-                >
-                  <path d="M12 2a3 3 0 0 0-3 3 3 3 0 0 0 0 6 3 3 0 0 0 3-3" />
-                  <path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2" />
-                  <path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2" />
-                </svg>
-              </div>
+              <Image
+                src="/icons8-guide-dog-48.png"
+                alt="FluentDog"
+                width={32}
+                height={32}
+                className="h-8 w-8"
+              />
               <span className="font-bold">FluentDog</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              AI-powered dog bark translator
+              AI-powered bark analysis to help
               <br />
-              and behavior coach.
+              stop excessive dog barking.
             </p>
             {/* Social links */}
             <div className="mt-4 flex gap-4">
@@ -80,72 +71,67 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href="#how-it-works" className="hover:text-foreground">
+                  How It Works
+                </a>
+              </li>
+              <li>
                 <a href="#pricing" className="hover:text-foreground">
                   Pricing
                 </a>
               </li>
               <li>
-                <a href="/download" className="hover:text-foreground">
-                  Download App
-                </a>
-              </li>
-              <li>
-                <a href="/api" className="hover:text-foreground">
-                  API Documentation
+                <a href="#faq" className="hover:text-foreground">
+                  FAQ
                 </a>
               </li>
             </ul>
           </nav>
 
-          {/* Resources */}
-          <nav aria-label="Resources navigation">
-            <h3 className="mb-4 text-sm font-semibold">Resources</h3>
+          {/* Guides */}
+          <nav aria-label="Guides navigation">
+            <h3 className="mb-4 text-sm font-semibold">Guides</h3>
             <ul className="space-y-2 text-sm text-muted-foreground" role="list">
               <li>
-                <a href="/blog" className="hover:text-foreground">
-                  Blog
+                <Link href="/blog" className="hover:text-foreground">
+                  All Guides
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog/how-to-stop-dog-barking" className="hover:text-foreground">
+                  How to Stop Dog Barking
+                </Link>
+              </li>
+              <li>
+                <a href="#faq" className="hover:text-foreground">
+                  Why Dogs Bark
                 </a>
               </li>
               <li>
-                <a href="/help" className="hover:text-foreground">
-                  Help Center
-                </a>
-              </li>
-              <li>
-                <a href="/community" className="hover:text-foreground">
-                  Community
-                </a>
-              </li>
-              <li>
-                <a href="/training-guides" className="hover:text-foreground">
-                  Training Guides
+                <a href="#faq" className="hover:text-foreground">
+                  Bark Analysis Tips
                 </a>
               </li>
             </ul>
           </nav>
 
-          {/* Company */}
-          <nav aria-label="Company navigation">
-            <h3 className="mb-4 text-sm font-semibold">Company</h3>
+          {/* Account */}
+          <nav aria-label="Account navigation">
+            <h3 className="mb-4 text-sm font-semibold">Get Started</h3>
             <ul className="space-y-2 text-sm text-muted-foreground" role="list">
               <li>
-                <a href="/about" className="hover:text-foreground">
-                  About Us
-                </a>
+                <Link href="/signup" className="hover:text-foreground">
+                  Create Account
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="hover:text-foreground">
-                  Contact Us
-                </a>
+                <Link href="/login" className="hover:text-foreground">
+                  Sign In
+                </Link>
               </li>
               <li>
-                <a href="/privacy" className="hover:text-foreground">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="/terms" className="hover:text-foreground">
-                  Terms of Service
+                <a href="mailto:support@fluentdog.app" className="hover:text-foreground">
+                  Contact Support
                 </a>
               </li>
             </ul>
