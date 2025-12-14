@@ -132,18 +132,23 @@ export function Hero() {
               <p className="mb-4 text-xs text-muted-foreground">Mar 21 - Mar 27</p>
 
               {/* Bar chart */}
-              <div className="mb-4 flex items-end justify-between gap-2" style={{ height: '100px' }}>
-                {[40, 65, 80, 45, 90, 70, 55].map((h, i) => (
-                  <div key={i} className="flex flex-1 flex-col items-center gap-1">
+              <div className="mb-4">
+                <div className="flex items-end justify-between gap-2" style={{ height: '80px' }}>
+                  {[40, 65, 80, 45, 90, 70, 55].map((h, i) => (
                     <div
-                      className={`w-full rounded-t ${i === 4 ? 'bg-primary' : 'bg-primary/40'}`}
-                      style={{ height: `${h}%` }}
+                      key={i}
+                      className={`flex-1 rounded-t ${i === 4 ? 'bg-primary' : 'bg-primary/40'}`}
+                      style={{ height: `${h}px` }}
                     />
-                    <span className="text-[10px] text-muted-foreground">
-                      {['S', 'M', 'T', 'W', 'T', 'F', 'S'][i]}
+                  ))}
+                </div>
+                <div className="mt-1 flex justify-between gap-2">
+                  {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
+                    <span key={i} className="flex-1 text-center text-[10px] text-muted-foreground">
+                      {day}
                     </span>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
 
               <div className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-2">
