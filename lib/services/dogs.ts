@@ -4,6 +4,7 @@ export interface Dog {
   id: string
   user_id: string
   name: string
+  gender: "male" | "female" | null
   breed: string | null
   age: string | null
   image_url: string | null
@@ -13,6 +14,7 @@ export interface Dog {
 
 export interface CreateDogInput {
   name: string
+  gender?: "male" | "female"
   breed?: string
   age?: string
   image_url?: string
@@ -20,6 +22,7 @@ export interface CreateDogInput {
 
 export interface UpdateDogInput {
   name?: string
+  gender?: "male" | "female"
   breed?: string
   age?: string
   image_url?: string
@@ -70,6 +73,7 @@ export async function createDog(input: CreateDogInput): Promise<{ data: Dog | nu
     .insert({
       user_id: user.id,
       name: input.name,
+      gender: input.gender || null,
       breed: input.breed || null,
       age: input.age || null,
       image_url: input.image_url || null,
