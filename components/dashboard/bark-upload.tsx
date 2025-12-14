@@ -16,6 +16,7 @@ export interface BarkAnalysisResult {
   duration: number
   audioUrl?: string
   videoUrl?: string
+  reviewed?: boolean
 }
 
 export function BarkUpload({ dogId, onUploadComplete }: BarkUploadProps) {

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { AddDogDialog } from "@/components/dashboard/add-dog-dialog"
 import { BarkUpload, type BarkAnalysisResult } from "@/components/dashboard/bark-upload"
 import { BarkAnalysisCard } from "@/components/dashboard/bark-analysis-card"
+import { BarkHistory } from "@/components/dashboard/bark-history"
 import { DailySummary } from "@/components/dashboard/daily-summary"
 import { WeeklyReport } from "@/components/dashboard/weekly-report"
 import { ContextEvents } from "@/components/dashboard/context-events"
@@ -412,56 +413,61 @@ export default function DashboardPage() {
                 </Button>
               </div>
             ) : (
-              <div className="grid gap-6 lg:grid-cols-2">
-                <WeeklyReport analyses={analyses} />
+              <div className="space-y-6">
+                {/* Bark History Timeline/Calendar */}
+                <BarkHistory analyses={analyses} dogName={selectedDog?.name} />
 
-                <div className="space-y-6">
-                  {/* Emotion Distribution */}
-                  <div className="rounded-2xl border border-gray-200 bg-white p-6">
-                    <h3 className="mb-4 font-semibold">Emotion Distribution</h3>
-                    <div className="space-y-3">
-                      {[
-                        { label: "Alert", percentage: 32, color: "bg-yellow-500" },
-                        { label: "Anxiety", percentage: 18, color: "bg-red-500" },
-                        { label: "Playful", percentage: 25, color: "bg-green-500" },
-                        { label: "Attention", percentage: 15, color: "bg-blue-500" },
-                        { label: "Boredom", percentage: 10, color: "bg-gray-400" },
-                      ].map((item) => (
-                        <div key={item.label}>
-                          <div className="mb-1 flex justify-between text-sm">
-                            <span>{item.label}</span>
-                            <span className="font-medium">{item.percentage}%</span>
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <WeeklyReport analyses={analyses} />
+
+                  <div className="space-y-6">
+                    {/* Emotion Distribution */}
+                    <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                      <h3 className="mb-4 font-semibold">Emotion Distribution</h3>
+                      <div className="space-y-3">
+                        {[
+                          { label: "Alert", percentage: 32, color: "bg-yellow-500" },
+                          { label: "Anxiety", percentage: 18, color: "bg-red-500" },
+                          { label: "Playful", percentage: 25, color: "bg-green-500" },
+                          { label: "Attention", percentage: 15, color: "bg-blue-500" },
+                          { label: "Boredom", percentage: 10, color: "bg-gray-400" },
+                        ].map((item) => (
+                          <div key={item.label}>
+                            <div className="mb-1 flex justify-between text-sm">
+                              <span>{item.label}</span>
+                              <span className="font-medium">{item.percentage}%</span>
+                            </div>
+                            <div className="h-2 rounded-full bg-gray-100">
+                              <div
+                                className={`h-full rounded-full ${item.color}`}
+                                style={{ width: `${item.percentage}%` }}
+                              />
+                            </div>
                           </div>
-                          <div className="h-2 rounded-full bg-gray-100">
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Anxiety Trend */}
+                    <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                      <h3 className="mb-4 font-semibold">Anxiety Score Trend</h3>
+                      <div className="flex items-end justify-between gap-2" style={{ height: '120px' }}>
+                        {[4.2, 3.8, 5.1, 4.5, 3.2, 3.9, 3.5].map((score, i) => (
+                          <div key={i} className="flex flex-1 flex-col items-center gap-1">
                             <div
-                              className={`h-full rounded-full ${item.color}`}
-                              style={{ width: `${item.percentage}%` }}
+                              className="w-full rounded-t bg-primary/70"
+                              style={{ height: `${score * 10}%` }}
                             />
+                            <span className="text-xs text-gray-500">
+                              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][i]}
+                            </span>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
+                      <p className="mt-4 text-sm text-gray-500">
+                        Average anxiety score this week: <span className="font-semibold text-primary">3.9</span> (down 12% from last week)
+                      </p>
                     </div>
-                  </div>
-
-                  {/* Anxiety Trend */}
-                  <div className="rounded-2xl border border-gray-200 bg-white p-6">
-                    <h3 className="mb-4 font-semibold">Anxiety Score Trend</h3>
-                    <div className="flex items-end justify-between gap-2" style={{ height: '120px' }}>
-                      {[4.2, 3.8, 5.1, 4.5, 3.2, 3.9, 3.5].map((score, i) => (
-                        <div key={i} className="flex flex-1 flex-col items-center gap-1">
-                          <div
-                            className="w-full rounded-t bg-primary/70"
-                            style={{ height: `${score * 10}%` }}
-                          />
-                          <span className="text-xs text-gray-500">
-                            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][i]}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <p className="mt-4 text-sm text-gray-500">
-                      Average anxiety score this week: <span className="font-semibold text-primary">3.9</span> (down 12% from last week)
-                    </p>
                   </div>
                 </div>
               </div>
