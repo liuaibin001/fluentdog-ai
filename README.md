@@ -12,6 +12,8 @@ AI-powered dog bark analysis platform that helps pet owners understand why their
 - **Trigger Detection**: Identifies possible causes of barking with confidence scores
 - **Follow-up Recommendations**: Context-aware questions to improve analysis
 
+![Analysis Detail](public/detail.png)
+
 ### Dashboard
 
 Manage your dogs, upload bark recordings, and track analysis results all in one place. The dashboard provides a comprehensive overview of your dog's barking patterns with daily summaries, emotion trends, and personalized training recommendations.
