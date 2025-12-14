@@ -89,8 +89,16 @@ export async function POST(request: NextRequest) {
       fullPrompt += `\n\nAdditional context: ${context}`
     }
 
-    // Call OpenRouter with Gemini model
-    const response = await openrouter.chat.completions.create({
+    // Determine audio format
+    let audioFormat = "wav"
+    if (mimeType?.includes("mp3") || mimeType?.includes("mpeg")) {
+      audioFormat = "mp3"
+    } else if (mimeType?.includes("webm")) {
+      audioFormat = "webm"
+    }
+
+    // Call OpenRouter with Gemini model using chat.send()
+    const result = await openrouter.chat.send({
       model: "google/gemini-2.0-flash-001",
       messages: [
         {
@@ -102,9 +110,9 @@ export async function POST(request: NextRequest) {
             },
             {
               type: "input_audio",
-              input_audio: {
+              inputAudio: {
                 data: audioBase64,
-                format: mimeType?.includes("wav") ? "wav" : mimeType?.includes("mp3") ? "mp3" : "wav",
+                format: audioFormat,
               },
             },
           ],
@@ -112,7 +120,8 @@ export async function POST(request: NextRequest) {
       ],
     })
 
-    const content = response.choices[0]?.message?.content
+    // Extract content from response
+    const content = result.choices?.[0]?.message?.content
     if (!content) {
       return NextResponse.json(
         { error: "No response from AI model" },
@@ -124,7 +133,7 @@ export async function POST(request: NextRequest) {
     let analysisResult: BarkAnalysisAPIResponse
     try {
       // Clean the response - remove any markdown code blocks if present
-      let cleanedContent = content.trim()
+      let cleanedContent = typeof content === "string" ? content.trim() : JSON.stringify(content)
       if (cleanedContent.startsWith("```json")) {
         cleanedContent = cleanedContent.slice(7)
       } else if (cleanedContent.startsWith("```")) {
