@@ -10,6 +10,7 @@ const plans = [
     id: "basic",
     name: "Basic",
     price: "Free",
+    originalPrice: null,
     period: "",
     description: "Start understanding why your dog barks so much",
     popular: false,
@@ -27,6 +28,7 @@ const plans = [
     id: "premium",
     name: "Premium",
     price: "$19.9",
+    originalPrice: "$29.9",
     period: "/month",
     description: "Understand why your dog barks at nothing, when left alone, or at night",
     popular: true,
@@ -46,7 +48,8 @@ const plans = [
   {
     id: "coach",
     name: "Coach",
-    price: "$49.9",
+    price: "$29.9",
+    originalPrice: "$49.9",
     period: "/month",
     description: "Complete training to stop dog barking for good",
     popular: false,
@@ -95,10 +98,18 @@ export function Pricing() {
               <CardHeader>
                 <CardTitle className="text-2xl">{plan.name}</CardTitle>
                 <CardDescription className="text-sm">{plan.description}</CardDescription>
-                <div className="mt-4 flex items-baseline gap-1">
-                  <span className="text-4xl font-bold">{plan.price}</span>
+                <div className="mt-4 flex items-baseline gap-2">
+                  <span className="text-4xl font-bold text-primary">{plan.price}</span>
+                  {plan.originalPrice && (
+                    <span className="text-xl text-muted-foreground line-through">{plan.originalPrice}</span>
+                  )}
                   <span className="text-muted-foreground">{plan.period}</span>
                 </div>
+                {plan.originalPrice && (
+                  <Badge variant="secondary" className="mt-2 bg-green-100 text-green-700">
+                    Save 33%
+                  </Badge>
+                )}
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3" role="list">

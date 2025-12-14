@@ -1,5 +1,3 @@
-import Link from "next/link"
-
 export function PromoBanner() {
   return (
     <div className="relative z-50 bg-gradient-to-r from-primary via-primary/90 to-primary px-4 py-2.5 text-center text-sm text-primary-foreground">
@@ -18,12 +16,12 @@ export function PromoBanner() {
         <code className="rounded bg-primary-foreground/20 px-1.5 py-0.5 font-mono font-semibold">
           BARKSENSE50
         </code>
-        <Link
-          href="/signup"
+        <a
+          href="#pricing"
           className="ml-2 hidden rounded-full bg-primary-foreground px-3 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary-foreground/90 sm:inline-block"
         >
           Claim Now
-        </Link>
+        </a>
       </div>
     </div>
   )
