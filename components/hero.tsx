@@ -20,8 +20,8 @@ export function Hero() {
 
           {/* SEO-rich description with target keywords */}
           <p className="mx-auto mb-6 max-w-xl text-pretty text-base text-muted-foreground md:text-lg lg:mx-0">
-            <strong>Stop guessing, start fixing.</strong> FluentDog monitors your dog while you&apos;re away,
-            translates their barks into emotions, and creates a
+            <strong>Stop guessing, start fixing.</strong> Simply upload or record your dog&apos;s barking,
+            our AI translates it into emotions, and creates a
             <em> personalized training plan</em> to stop excessive barking.
           </p>
 
@@ -45,8 +45,8 @@ export function Hero() {
               <div className="text-xs text-muted-foreground md:text-sm">Emotion Categories</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-primary md:text-3xl">24/7</div>
-              <div className="text-xs text-muted-foreground md:text-sm">Real-time Monitoring</div>
+              <div className="text-2xl font-bold text-primary md:text-3xl">1-10</div>
+              <div className="text-xs text-muted-foreground md:text-sm">Anxiety Score</div>
             </div>
           </div>
         </div>

@@ -2,27 +2,27 @@ export function HowItWorks() {
   const steps = [
     {
       number: "01",
-      title: "Set Up Your Listening Device",
+      title: "Create Your Dog's Profile",
       description:
-        "Place any spare smartphone or tablet at home as a monitoring device. Your main phone receives alerts and reports in real-time.",
+        "Add your dog's name and basic info. Set up context events like when you leave home, visitors arrive, or other triggers you've noticed.",
     },
     {
       number: "02",
-      title: "AI Analyzes Every Bark",
+      title: "Upload or Record Barking",
       description:
-        "When barking is detected, our AI instantly classifies the emotion type (Alert, Anxiety, Boredom) and generates a detailed intensity score.",
+        "Capture your dog's barking with video or audio - upload existing recordings or record directly in the app when you notice barking.",
     },
     {
       number: "03",
-      title: "Get Your Training Plan",
+      title: "AI Analyzes & Classifies",
       description:
-        "Based on your dog's unique barking patterns, receive a customized progressive training program designed to address the root causes.",
+        "Our AI classifies each bark into 5 emotion types (Alert, Anxiety, Playful, Attention, Boredom), generates a 1-10 anxiety score, and correlates with context events.",
     },
     {
       number: "04",
-      title: "Track Your Progress",
+      title: "Get Insights & Training Plan",
       description:
-        "Monitor barking frequency changes over time, see training effectiveness, and adjust strategies as needed for optimal results.",
+        "View daily summaries, weekly reports with bark type pie charts, and receive a personalized AI training plan to address the root causes.",
     },
   ]
 

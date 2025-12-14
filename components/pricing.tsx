@@ -1,6 +1,9 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { SubscribeButton } from "@/components/subscribe-button"
 
 const plans = [
   {
@@ -11,13 +14,14 @@ const plans = [
     description: "Get started and understand your dog's barking patterns",
     popular: false,
     features: [
-      "Bark counting & detection",
+      "Upload & record bark audio/video",
+      "Basic bark classification",
       "24-hour history",
-      "Basic monitoring",
       "Community support",
     ],
     cta: "Start Free",
     href: "/signup",
+    requiresAuth: false,
   },
   {
     id: "premium",
@@ -37,6 +41,7 @@ const plans = [
     ],
     cta: "Subscribe Now",
     href: "/checkout?plan=premium",
+    requiresAuth: true,
   },
   {
     id: "coach",
@@ -56,6 +61,7 @@ const plans = [
     ],
     cta: "Subscribe Now",
     href: "/checkout?plan=coach",
+    requiresAuth: true,
   },
 ]
 
@@ -115,13 +121,21 @@ export function Pricing() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button
-                className={`w-full ${plan.popular ? "bg-primary text-primary-foreground hover:bg-primary/90" : ""}`}
-                variant={plan.popular ? "default" : "outline"}
-                asChild
-              >
-                <a href={plan.href}>{plan.cta}</a>
-              </Button>
+              {plan.requiresAuth ? (
+                <SubscribeButton
+                  href={plan.href}
+                  cta={plan.cta}
+                  popular={plan.popular}
+                />
+              ) : (
+                <Button
+                  className={`w-full ${plan.popular ? "bg-primary text-primary-foreground hover:bg-primary/90" : ""}`}
+                  variant={plan.popular ? "default" : "outline"}
+                  asChild
+                >
+                  <a href={plan.href}>{plan.cta}</a>
+                </Button>
+              )}
             </CardFooter>
           </Card>
         ))}

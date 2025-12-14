@@ -14,15 +14,15 @@ const features = [
         className="h-6 w-6"
         aria-hidden="true"
       >
-        <path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
-        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-        <line x1="12" x2="12" y1="19" y2="22" />
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="17 8 12 3 7 8" />
+        <line x1="12" x2="12" y1="3" y2="15" />
       </svg>
     ),
-    title: "24/7 Dog Bark Monitor",
+    title: "Easy Upload & Recording",
     description:
-      "Use any spare phone or tablet as a listening device. Our Voice Activity Detection (VAD) only activates when barking is detected, saving battery and storage.",
-    keywords: "dog bark monitor app, app to record dog barking while away",
+      "Upload existing bark recordings or record directly in the app. Capture video or audio of your dog's barking anytime for instant AI analysis.",
+    keywords: "dog bark analyzer, upload dog barking audio",
   },
   {
     icon: (
