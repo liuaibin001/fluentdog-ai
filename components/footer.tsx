@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border/50 bg-muted/30" role="contentinfo">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid gap-8 md:grid-cols-4">
+        <div className="grid gap-8 md:grid-cols-3">
           {/* Brand */}
           <div>
             <Link href="/" className="mb-4 flex items-center gap-2" aria-label="FluentDog Home">
@@ -115,27 +115,6 @@ export function Footer() {
             </ul>
           </nav>
 
-          {/* Account */}
-          <nav aria-label="Account navigation">
-            <h3 className="mb-4 text-sm font-semibold">Get Started</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground" role="list">
-              <li>
-                <Link href="/signup" className="hover:text-foreground">
-                  Create Account
-                </Link>
-              </li>
-              <li>
-                <Link href="/login" className="hover:text-foreground">
-                  Sign In
-                </Link>
-              </li>
-              <li>
-                <a href="mailto:support@fluentdog.app" className="hover:text-foreground">
-                  Contact Support
-                </a>
-              </li>
-            </ul>
-          </nav>
         </div>
 
         <div className="mt-12 border-t border-border/50 pt-8 text-center text-sm text-muted-foreground">
