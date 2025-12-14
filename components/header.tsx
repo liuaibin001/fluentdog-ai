@@ -43,6 +43,14 @@ export function Header() {
             </a>
           </li>
           <li>
+            <Link
+              href="/blog"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Guides
+            </Link>
+          </li>
+          <li>
             <a
               href="#faq"
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
