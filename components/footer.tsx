@@ -119,11 +119,11 @@ export function Footer() {
           <div>
             <h3 className="mb-4 text-sm font-semibold">Contact Us</h3>
             <ul className="space-y-2 text-sm text-muted-foreground" role="list">
-              <li className="flex items-center gap-2">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <a href="mailto:support@fluentdog.app" className="hover:text-foreground">
+              <li>
+                <a href="mailto:support@fluentdog.app" className="flex items-center gap-2 hover:text-foreground">
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
                   support@fluentdog.app
                 </a>
               </li>
