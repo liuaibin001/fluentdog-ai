@@ -1,3 +1,4 @@
+import { PromoBanner } from "@/components/promo-banner"
 import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
 import { Features } from "@/components/features"
@@ -10,6 +11,7 @@ import { Footer } from "@/components/footer"
 export default function Home() {
   return (
     <>
+      <PromoBanner />
       <Header />
       <main className="min-h-screen">
         <Hero />

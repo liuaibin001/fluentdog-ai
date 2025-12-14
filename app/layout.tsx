@@ -180,7 +180,7 @@ const jsonLd = {
         {
           "@type": "Offer",
           name: "Premium",
-          price: "10",
+          price: "19.9",
           priceCurrency: "USD",
           billingDuration: "P1M",
           description: "AI emotion classification, anxiety scoring, weekly reports",
@@ -188,7 +188,7 @@ const jsonLd = {
         {
           "@type": "Offer",
           name: "Coach",
-          price: "18",
+          price: "49.9",
           priceCurrency: "USD",
           billingDuration: "P1M",
           description: "Personalized training courses and AI sound library",

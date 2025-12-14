@@ -19,7 +19,7 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "$10",
+    price: "$19.9",
     period: "/month",
     description: "Professional diagnosis and continuous peace of mind",
     popular: true,
@@ -36,7 +36,7 @@ const plans = [
   },
   {
     name: "Coach",
-    price: "$18",
+    price: "$49.9",
     period: "/month",
     description: "Complete solution to stop excessive barking",
     popular: false,
