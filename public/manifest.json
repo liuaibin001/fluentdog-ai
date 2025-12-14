@@ -1,22 +1,22 @@
 {
-  "name": "FluentDog - AI Dog Bark Translator",
+  "name": "FluentDog - How to Stop Dog Barking",
   "short_name": "FluentDog",
-  "description": "AI-powered dog bark translator and separation anxiety monitor. Understand why your dog barks and get personalized training plans.",
+  "description": "AI-powered dog bark analyzer that helps you understand why your dog barks and provides personalized training to stop excessive barking.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f0f14",
-  "theme_color": "#4fd1c5",
+  "background_color": "#ffffff",
+  "theme_color": "#7c3aed",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icon-192x192.png",
-      "sizes": "192x192",
+      "src": "/icons8-guide-dog-48.png",
+      "sizes": "48x48",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "/icon-512x512.png",
-      "sizes": "512x512",
+      "src": "/icons8-guide-dog-96.png",
+      "sizes": "96x96",
       "type": "image/png",
       "purpose": "any maskable"
     }

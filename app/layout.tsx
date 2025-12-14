@@ -86,19 +86,18 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
+        url: "/icons8-guide-dog-48.png",
+        sizes: "48x48",
+        type: "image/png",
       },
       {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
+        url: "/icons8-guide-dog-96.png",
+        sizes: "96x96",
+        type: "image/png",
       },
     ],
-    apple: "/apple-icon.png",
+    apple: "/icons8-guide-dog-96.png",
+    shortcut: "/icons8-guide-dog-48.png",
   },
   manifest: "/manifest.json",
   category: "technology",
@@ -125,9 +124,9 @@ const jsonLd = {
       url: siteUrl,
       logo: {
         "@type": "ImageObject",
-        url: `${siteUrl}/logo.png`,
-        width: 512,
-        height: 512,
+        url: `${siteUrl}/icons8-guide-dog-96.png`,
+        width: 96,
+        height: 96,
       },
       sameAs: [
         "https://twitter.com/fluentdogapp",

@@ -119,22 +119,13 @@ export default function DashboardPage() {
         <div className="container mx-auto flex h-16 items-center justify-between px-6">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-900">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-5 w-5"
-              >
-                <path d="M12 2a3 3 0 0 0-3 3 3 3 0 0 0 0 6 3 3 0 0 0 3-3" />
-                <path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2" />
-                <path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2" />
-              </svg>
-            </div>
+            <Image
+              src="/icons8-guide-dog-48.png"
+              alt="FluentDog"
+              width={36}
+              height={36}
+              className="h-9 w-9"
+            />
             <span className="text-xl font-bold">FluentDog</span>
           </Link>
 
@@ -257,12 +248,13 @@ export default function DashboardPage() {
               {/* AI Assistant Tip */}
               <div className="rounded-xl bg-gray-50 p-4">
                 <div className="mb-2 flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-300">
-                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M12 2a3 3 0 0 0-3 3 3 3 0 0 0 0 6 3 3 0 0 0 3-3" />
-                      <path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2" />
-                    </svg>
-                  </div>
+                  <Image
+                    src="/icons8-guide-dog-48.png"
+                    alt="FluentDog AI"
+                    width={32}
+                    height={32}
+                    className="h-8 w-8"
+                  />
                   <span className="font-semibold">FluentDog AI</span>
                   <span className="text-sm text-gray-500">Your 24/7 bark analysis assistant</span>
                 </div>
