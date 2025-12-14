@@ -12,14 +12,7 @@ import { DailySummary } from "@/components/dashboard/daily-summary"
 import { WeeklyReport } from "@/components/dashboard/weekly-report"
 import { ContextEvents } from "@/components/dashboard/context-events"
 import { TrainingPlan } from "@/components/dashboard/training-plan"
-
-interface Dog {
-  id: string
-  name: string
-  breed: string
-  age: string
-  image?: string
-}
+import { getDogs, type Dog } from "@/lib/services/dogs"
 
 interface ContextEvent {
   id: string
@@ -44,7 +37,7 @@ export default function DashboardPage() {
   const [userPlan, setUserPlan] = useState<"free" | "premium" | "coach">("premium") // Mock plan
 
   useEffect(() => {
-    const checkUser = async () => {
+    const initDashboard = async () => {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
 
@@ -58,16 +51,23 @@ export default function DashboardPage() {
         name: user.user_metadata?.full_name || user.email?.split('@')[0] || "User",
         avatar: user.user_metadata?.avatar_url
       })
+
+      // Fetch user's dogs from database
+      const { data: dogsData } = await getDogs()
+      if (dogsData && dogsData.length > 0) {
+        setDogs(dogsData)
+        setSelectedDog(dogsData[0])
+      }
+
       setLoading(false)
     }
 
-    checkUser()
+    initDashboard()
   }, [])
 
-  const handleAddDog = (dog: { name: string; breed: string; age: string }) => {
-    const newDog = { ...dog, id: Math.random().toString(36).substr(2, 9) }
-    setDogs([...dogs, newDog])
-    setSelectedDog(newDog)
+  const handleAddDog = (dog: Dog) => {
+    setDogs([dog, ...dogs])
+    setSelectedDog(dog)
   }
 
   const handleUploadComplete = (result: BarkAnalysisResult) => {
@@ -336,8 +336,8 @@ export default function DashboardPage() {
                 >
                   {/* Dog Image Placeholder */}
                   <div className="mb-4 flex h-24 w-24 items-center justify-center rounded-xl bg-gray-100">
-                    {dog.image ? (
-                      <Image src={dog.image} alt={dog.name} width={96} height={96} className="h-full w-full rounded-xl object-cover" />
+                    {dog.image_url ? (
+                      <Image src={dog.image_url} alt={dog.name} width={96} height={96} className="h-full w-full rounded-xl object-cover" />
                     ) : (
                       <svg className="h-12 w-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -346,7 +346,7 @@ export default function DashboardPage() {
                   </div>
 
                   <h3 className="text-lg font-semibold">{dog.name}</h3>
-                  <p className="text-sm text-gray-500">{dog.breed}</p>
+                  <p className="text-sm text-gray-500">{dog.breed || "Unknown breed"}</p>
 
                   <div className="mt-4 flex items-center justify-between">
                     <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
