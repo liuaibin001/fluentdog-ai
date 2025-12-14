@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { AuthButton } from "@/components/auth-button"
 
 export function Header() {
   return (
@@ -61,14 +61,7 @@ export function Header() {
           </li>
         </ul>
 
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="hidden sm:flex" asChild>
-            <a href="/login">Log In</a>
-          </Button>
-          <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
-            <a href="/signup">Start Free Trial</a>
-          </Button>
-        </div>
+        <AuthButton />
       </nav>
     </header>
   )
