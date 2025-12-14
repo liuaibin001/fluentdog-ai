@@ -133,11 +133,20 @@ export function Hero() {
 
               {/* Bar chart */}
               <div className="mb-4 flex items-end justify-between gap-2" style={{ height: '100px' }}>
-                {[65, 80, 45, 90, 70, 85, 55].map((h, i) => (
+                {[
+                  { h: 65, v: 12 },
+                  { h: 80, v: 18 },
+                  { h: 45, v: 8 },
+                  { h: 90, v: 24 },
+                  { h: 70, v: 15 },
+                  { h: 85, v: 21 },
+                  { h: 55, v: 10 },
+                ].map((d, i) => (
                   <div key={i} className="flex flex-1 flex-col items-center gap-1">
+                    <span className="text-[9px] font-medium text-muted-foreground">{d.v}</span>
                     <div
                       className={`w-full rounded-t-sm ${i === 3 ? 'bg-primary' : 'bg-primary/30'}`}
-                      style={{ height: `${h}%` }}
+                      style={{ height: `${d.h}%` }}
                     />
                     <span className="text-[10px] text-muted-foreground">
                       {['S', 'M', 'T', 'W', 'T', 'F', 'S'][i]}
