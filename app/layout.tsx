@@ -19,38 +19,22 @@ const siteUrl = "https://fluentdog.app"
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "How to Stop Dog Barking | AI Bark Analyzer & Training App - FluentDog",
-    template: "%s | FluentDog - Stop Dog Barking",
+    default: "How to Stop Dog Barking | AI Bark Analyzer - FluentDog",
+    template: "%s | FluentDog",
   },
   description:
-    "Wondering why your dog barks so much? FluentDog AI analyzes your dog's barking to identify the cause (anxiety, boredom, alert) and creates a personalized training plan to stop excessive barking. Works for dogs barking at nothing, when left alone, or at night. Try free today!",
+    "Why does your dog bark so much? AI analyzes barking to find the cause and stop it. Works for barking at nothing, when alone, or at night. Try free!",
   keywords: [
-    // Primary keywords
-    "how to stop dog barking",
     "stop dog barking",
     "dog barking",
-    // Long-tail problem keywords
-    "why is my dog barking at nothing",
-    "why does my dog bark so much",
-    "why is my dog barking at night",
-    "dog barking when left alone",
-    "how to stop dog barking at night",
-    "how to stop dog barking when left alone",
-    "dog barking for no reason",
-    "excessive dog barking",
-    // Solution keywords
+    "why dog barks",
     "dog bark analyzer",
-    "dog bark translator app",
-    "AI dog bark analysis",
-    "dog barking solution",
-    "stop excessive barking",
-    // Feature keywords
-    "dog anxiety barking",
-    "separation anxiety dog barking",
-    "dog bark meaning",
-    "types of dog barks",
-    "dog bark training app",
-    "dog behavior analysis app",
+    "excessive barking",
+    "dog anxiety",
+    "separation anxiety",
+    "dog training",
+    "bark meaning",
+    "dog behavior",
   ],
   authors: [{ name: "FluentDog", url: siteUrl }],
   creator: "FluentDog",
@@ -70,13 +54,13 @@ export const metadata: Metadata = {
     siteName: "FluentDog",
     title: "How to Stop Dog Barking | AI Bark Analyzer - FluentDog",
     description:
-      "Why does your dog bark so much? AI analyzes your dog's barking to find the cause and creates a training plan to stop excessive barking. Works for dogs barking at nothing or when left alone.",
+      "Why does your dog bark so much? AI analyzes barking to find the cause and stop it. Works for barking at nothing, when alone, or at night.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "FluentDog - Stop Dog Barking with AI Analysis",
+        alt: "FluentDog - Stop Dog Barking with AI",
       },
     ],
   },
@@ -84,7 +68,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "How to Stop Dog Barking | AI Bark Analyzer - FluentDog",
     description:
-      "Why does your dog bark so much? AI analyzes your dog's barking to find the cause and creates a training plan to stop excessive barking.",
+      "Why does your dog bark so much? AI analyzes barking to find the cause and stop it. Try free!",
     images: ["/og-image.png"],
     creator: "@fluentdogapp",
   },
