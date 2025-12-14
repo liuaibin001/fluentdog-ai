@@ -17,40 +17,118 @@ export interface BarkAnalysisResult {
   audioUrl?: string
   videoUrl?: string
   reviewed?: boolean
+  // Extended fields from AI analysis
+  isDogBark?: boolean
+  dogBarkConfidence?: number
+  nonBarkSound?: string | null
+  emotionConfidence?: number | null
+  anxietyRationale?: string | null
+  triggerCandidates?: Array<{
+    trigger: string
+    confidence: number
+    rationale: string
+  }>
+  needsMoreContext?: boolean
+  followUpQuestions?: string[]
 }
 
-export function BarkUpload({ dogId, onUploadComplete }: BarkUploadProps) {
+// Convert file/blob to base64
+async function fileToBase64(file: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      const result = reader.result as string
+      // Remove data URL prefix to get pure base64
+      const base64 = result.split(",")[1]
+      resolve(base64)
+    }
+    reader.onerror = reject
+    reader.readAsDataURL(file)
+  })
+}
+
+// Get audio duration from file
+async function getAudioDuration(file: Blob): Promise<number> {
+  return new Promise((resolve) => {
+    const audio = new Audio()
+    audio.onloadedmetadata = () => {
+      resolve(Math.round(audio.duration))
+    }
+    audio.onerror = () => resolve(0)
+    audio.src = URL.createObjectURL(file)
+  })
+}
+
+export function BarkUpload({ onUploadComplete }: BarkUploadProps) {
   const [uploading, setUploading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [recording, setRecording] = useState(false)
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const videoInputRef = useRef<HTMLInputElement>(null)
 
+  const analyzeAudio = async (audioBlob: Blob, mimeType: string) => {
+    setUploading(true)
+    setError(null)
+
+    try {
+      const audioBase64 = await fileToBase64(audioBlob)
+      const duration = await getAudioDuration(audioBlob)
+
+      const response = await fetch("/api/analyze-bark", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          audioBase64,
+          mimeType,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Analysis failed")
+      }
+
+      // Transform API response to BarkAnalysisResult
+      const result: BarkAnalysisResult = {
+        id: Math.random().toString(36).substr(2, 9),
+        timestamp: new Date(),
+        emotionType: data.emotionType || "alert",
+        anxietyScore: data.anxietyScore || 1,
+        duration: duration || 0,
+        isDogBark: data.isDogBark,
+        dogBarkConfidence: data.dogBarkConfidence,
+        nonBarkSound: data.nonBarkSound,
+        emotionConfidence: data.emotionConfidence,
+        anxietyRationale: data.anxietyRationale,
+        triggerCandidates: data.triggerCandidates,
+        needsMoreContext: data.needsMoreContext,
+        followUpQuestions: data.followUpQuestions,
+      }
+
+      onUploadComplete(result)
+    } catch (err) {
+      console.error("Analysis error:", err)
+      setError(err instanceof Error ? err.message : "Analysis failed")
+    } finally {
+      setUploading(false)
+    }
+  }
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
-    setUploading(true)
+    await analyzeAudio(file, file.type)
 
-    // Simulate AI analysis (in production, this would call your bark classification API)
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    const mockResult: BarkAnalysisResult = {
-      id: Math.random().toString(36).substr(2, 9),
-      timestamp: new Date(),
-      emotionType: ["alert", "anxiety", "playful", "attention", "boredom"][Math.floor(Math.random() * 5)] as BarkAnalysisResult["emotionType"],
-      anxietyScore: Math.floor(Math.random() * 10) + 1,
-      duration: Math.floor(Math.random() * 30) + 5,
-    }
-
-    onUploadComplete(mockResult)
-    setUploading(false)
     if (fileInputRef.current) fileInputRef.current.value = ""
     if (videoInputRef.current) videoInputRef.current.value = ""
   }
 
   const startRecording = async () => {
     try {
+      setError(null)
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       const recorder = new MediaRecorder(stream)
       const chunks: Blob[] = []
@@ -58,21 +136,8 @@ export function BarkUpload({ dogId, onUploadComplete }: BarkUploadProps) {
       recorder.ondataavailable = (e) => chunks.push(e.data)
       recorder.onstop = async () => {
         const blob = new Blob(chunks, { type: "audio/webm" })
-        // In production, upload blob to storage and analyze
-        setUploading(true)
-        await new Promise((resolve) => setTimeout(resolve, 2000))
-
-        const mockResult: BarkAnalysisResult = {
-          id: Math.random().toString(36).substr(2, 9),
-          timestamp: new Date(),
-          emotionType: ["alert", "anxiety", "playful", "attention", "boredom"][Math.floor(Math.random() * 5)] as BarkAnalysisResult["emotionType"],
-          anxietyScore: Math.floor(Math.random() * 10) + 1,
-          duration: Math.floor(Math.random() * 30) + 5,
-        }
-
-        onUploadComplete(mockResult)
-        setUploading(false)
         stream.getTracks().forEach((track) => track.stop())
+        await analyzeAudio(blob, "audio/webm")
       }
 
       recorder.start()
@@ -80,6 +145,7 @@ export function BarkUpload({ dogId, onUploadComplete }: BarkUploadProps) {
       setRecording(true)
     } catch (err) {
       console.error("Failed to start recording:", err)
+      setError("Failed to access microphone. Please check permissions.")
     }
   }
 
@@ -115,10 +181,16 @@ export function BarkUpload({ dogId, onUploadComplete }: BarkUploadProps) {
           Capture your dog&apos;s barking for AI analysis
         </p>
 
+        {error && (
+          <div className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-600">
+            {error}
+          </div>
+        )}
+
         {uploading ? (
           <div className="mt-6">
             <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-            <p className="mt-2 text-sm text-muted-foreground">Analyzing bark...</p>
+            <p className="mt-2 text-sm text-muted-foreground">Analyzing bark with AI...</p>
           </div>
         ) : (
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
