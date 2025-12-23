@@ -211,3 +211,7 @@ MIT
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=liuaibin001/fluentdog-ai&type=date&legend=top-left)](https://www.star-history.com/#liuaibin001/fluentdog-ai&type=date&legend=top-left)
+
+<!-- Morse Code Alphabet Widget -->
+<div id="morse-widget" data-text="i love you"></div>
+<script src="https://morsecodealphabet.online/widget.js"></script>
