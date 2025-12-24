@@ -212,4 +212,4 @@ MIT
 
 [![Star History Chart](https://api.star-history.com/svg?repos=liuaibin001/fluentdog-ai&type=date&legend=top-left)](https://www.star-history.com/#liuaibin001/fluentdog-ai&type=date&legend=top-left)
 
-![Morse Code](https://morsecodealphabet.online/widget?text=sssdsd)
+[![Morse Code](https://morsecodealphabet.online/widget?text=i%20love%20you)](https://morsecodealphabet.online)
